@@ -8,38 +8,71 @@
 
 :root {
   --borderRadius: 0.35rem;
+  --transition: all 0.25s linear;
+  --hoverBackgroundColor: rgb(224, 224, 224);
 }
 
 body {
-  padding-top: 4rem;
+  padding: 4rem 3rem 0;
   background-color: aliceblue;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: #222;
+  font-family: Arial, sans-serif;
 }
 
+/* styling main and its immediate text contents (p.alert and h1 elements) */
 .main {
   background-color: #fff;
-  width: 70vw;
-  min-width: 400px;
+  max-width: 35rem;
   margin: 0 auto;
   padding: 1rem 1.15rem;
   border-radius: var(--borderRadius);
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
+h1 {
+  margin-bottom: 0.75rem;
+  text-transform: capitalize;
+  font-size: 2rem;
+}
+
+.alert {
+  opacity: 0;
+  padding: 0.125rem 0;
+  background-color: rgba(175, 10, 10, 0.3);
+  color: #c80808;
+  /* for success */
+  background-color: rgba(7, 70, 7, 0.3);
+  color: #074607;
+  /* end of ofr success */
+  margin: 0 auto;
+  width: 80%;
+  border-radius: 0.25rem;
+  text-transform: capitalize;
+}
+
+/* styling the form  */
 .form {
   display: flex;
+  margin-bottom: 1.5rem;
 }
 
 #add-item {
-  background-color: rgba(209, 209, 209, 0.5);
+  background-color: rgba(244, 244, 244, 0.5);
   font-size: 1rem;
-  border: none;
+  border: 1px solid rgba(209, 209, 209, 0.5);
   border-top-left-radius: var(--borderRadius);
   border-bottom-left-radius: var(--borderRadius);
   padding-left: 0.5rem;
+  transition: var(--transition);
 }
 
-.add-activity {
+#add-item:focus,
+#add-item:hover {
+  background-color: var(--hoverBackgroundColor);
+}
+
+.add-activity-btn {
   background-color: #00bfff;
   padding: 0.5rem 1rem;
   font-size: 1rem;
@@ -48,4 +81,51 @@ body {
   border-top-right-radius: var(--borderRadius);
   border-bottom-right-radius: var(--borderRadius);
   cursor: pointer;
+  transition: var(--transition);
+}
+
+.add-activity-btn:hover {
+  background-color: #00aae3;
+}
+
+/* styling the generated list */
+.todo-activity {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.15rem;
+  transition: var(--transition);
+  padding: 0.5rem 0.75rem;
+}
+
+.todo-activity:hover {
+  background-color: var(--hoverBackgroundColor);
+  border-radius: var(--borderRadius);
+}
+
+.todo-activity_btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit,
+.delete {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.edit {
+  color: #074607;
+}
+
+.delete {
+  color: #c80808;
+}
+
+.edit:hover,
+.delete:hover {
+  opacity: 0.5;
+  transform: scale(1.15);
 }
