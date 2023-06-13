@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <!-- css -->
+    <link rel="stylesheet" href="./style.css" />
+    <!-- font awesome -->
+    <script src="./all.js"></script>
+  </head>
+  <body>
+    <main class="main">
+      <section class="todo-app">
+        <p class="alert">error</p>
+        <h1>activities</h1>
+        <!-- form -->
+        <form class="form">
+          <input type="text" id="add-item" placeholder="eg. read the qur'an" />
+          <button type="submit" class="add-activity">add</button>
+        </form>
+
+        <!-- generated list -->
+        <div id="todo-list">
+          <article class="todo-activity">
+            <p class="todo-activity_text">Wash the plates</p>
+            <div class="todo-activity_btns">
+              <button class="edit"><i class="far fa-edit"></i></button>
+              <button class="delete"><i class="far fa-trash-alt"></i></button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- js -->
+    <script src="./app.js"></script>
+  </body>
+</html>

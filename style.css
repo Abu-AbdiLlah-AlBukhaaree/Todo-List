@@ -1,0 +1,51 @@
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --borderRadius: 0.35rem;
+}
+
+body {
+  padding-top: 4rem;
+  background-color: aliceblue;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.main {
+  background-color: #fff;
+  width: 70vw;
+  min-width: 400px;
+  margin: 0 auto;
+  padding: 1rem 1.15rem;
+  border-radius: var(--borderRadius);
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.form {
+  display: flex;
+}
+
+#add-item {
+  background-color: rgba(209, 209, 209, 0.5);
+  font-size: 1rem;
+  border: none;
+  border-top-left-radius: var(--borderRadius);
+  border-bottom-left-radius: var(--borderRadius);
+  padding-left: 0.5rem;
+}
+
+.add-activity {
+  background-color: #00bfff;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  text-transform: capitalize;
+  border: none;
+  border-top-right-radius: var(--borderRadius);
+  border-bottom-right-radius: var(--borderRadius);
+  cursor: pointer;
+}
