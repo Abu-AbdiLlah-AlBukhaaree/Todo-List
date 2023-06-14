@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo List</title>
+    <title>Todo App</title>
     <!-- css -->
     <link rel="stylesheet" href="./style.css" />
     <!-- font awesome -->
@@ -16,44 +16,30 @@
         <h1>activities</h1>
         <!-- form -->
         <form class="form">
-          <input type="text" id="add-item" placeholder="eg. read the qur'an" />
-          <button type="submit" class="add-activity-btn">add</button>
+          <input
+            type="text"
+            id="text-input"
+            placeholder="eg. read the qur'an"
+          />
+          <!-- <button type="submit" >add</button> -->
+          <input type="submit" value="add" class="add-activity-btn" />
         </form>
 
         <!-- generated list -->
         <div id="todo-list">
           <!-- single item on todo list -->
-          <article class="todo-activity">
-            <p class="todo-activity_text">Wash the plates</p>
-            <div class="todo-activity_btns">
-              <button class="edit"><i class="far fa-edit"></i></button>
-              <button class="delete">
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </div>
-          </article>
-          <!-- end of single item on todo list -->
-          <!-- single item on todo list -->
-          <article class="todo-activity">
-            <p class="todo-activity_text">Wash the plates</p>
-            <div class="todo-activity_btns">
-              <button class="edit"><i class="far fa-edit"></i></button>
-              <button class="delete">
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </div>
-          </article>
-          <!-- end of single item on todo list -->
-          <!-- single item on todo list -->
-          <article class="todo-activity">
-            <p class="todo-activity_text">Wash the plates</p>
-            <div class="todo-activity_btns">
-              <button class="edit"><i class="far fa-edit"></i></button>
-              <button class="delete">
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </div>
-          </article>
+          <!-- <article class="todo-activity">
+              <p class="todo-activity_text">Wash the plates</p>
+              <div class="todo-activity_btns">
+                <button class="completed">
+                  <i class="fas fa-check-double"></i>
+                </button>
+                <button class="edit"><i class="far fa-edit"></i></button>
+                <button class="delete">
+                  <i class="far fa-trash-alt"></i>
+                </button>
+              </div>
+            </article> -->
           <!-- end of single item on todo list -->
         </div>
       </section>

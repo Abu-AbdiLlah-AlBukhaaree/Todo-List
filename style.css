@@ -39,16 +39,23 @@ h1 {
 .alert {
   opacity: 0;
   padding: 0.125rem 0;
-  background-color: rgba(175, 10, 10, 0.3);
-  color: #c80808;
-  /* for success */
-  background-color: rgba(7, 70, 7, 0.3);
-  color: #074607;
-  /* end of ofr success */
   margin: 0 auto;
   width: 80%;
   border-radius: 0.25rem;
   text-transform: capitalize;
+}
+
+.error {
+  opacity: 1;
+  background-color: rgba(175, 10, 10, 0.3);
+  color: #c80808;
+}
+
+.success {
+  opacity: 1;
+
+  background-color: rgba(7, 70, 7, 0.3);
+  color: #074607;
 }
 
 /* styling the form  */
@@ -57,7 +64,7 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
-#add-item {
+#text-input {
   background-color: rgba(244, 244, 244, 0.5);
   font-size: 1rem;
   border: 1px solid rgba(209, 209, 209, 0.5);
@@ -67,8 +74,8 @@ h1 {
   transition: var(--transition);
 }
 
-#add-item:focus,
-#add-item:hover {
+#text-input:focus,
+#text-input:hover {
   background-color: var(--hoverBackgroundColor);
 }
 
@@ -95,6 +102,7 @@ h1 {
   font-size: 1.15rem;
   transition: var(--transition);
   padding: 0.5rem 0.75rem;
+  text-transform: capitalize;
 }
 
 .todo-activity:hover {
@@ -107,6 +115,7 @@ h1 {
   gap: 0.5rem;
 }
 
+.completed,
 .edit,
 .delete {
   background-color: transparent;
@@ -116,14 +125,19 @@ h1 {
   transition: var(--transition);
 }
 
+.completed {
+  color: #1e791e;
+}
+
 .edit {
-  color: #074607;
+  color: rgb(194, 194, 33);
 }
 
 .delete {
   color: #c80808;
 }
 
+.completed:hover,
 .edit:hover,
 .delete:hover {
   opacity: 0.5;
