@@ -38,11 +38,12 @@ h1 {
 
 .alert {
   opacity: 0;
-  padding: 0.125rem 0;
+  padding: 0.15rem 0;
   margin: 0 auto;
   width: 80%;
   border-radius: 0.25rem;
   text-transform: capitalize;
+  font-size: 0.95rem;
 }
 
 .error {
@@ -142,4 +143,22 @@ h1 {
 .delete:hover {
   opacity: 0.5;
   transform: scale(1.15);
+}
+
+.clear {
+  margin-top: 1rem;
+  display: none;
+  background-color: transparent;
+  color: #c80808;
+  border: none;
+  letter-spacing: 0.25rem;
+  word-spacing: 0.35rem;
+  font-size: 1.05rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.clear:hover {
+  color: #920909;
 }
