@@ -17,22 +17,6 @@ class Todo {
     this.edittedText = '';
     this.edittedElement = null;
 
-    // select dynamic btns
-    this.completedBtns = document.querySelectorAll('.completed');
-    this.editBtns = document.querySelectorAll('.edit');
-    this.deleteBtns = document.querySelectorAll('.delete');
-
-    // event listeners of dynamic btns
-    this.completedBtns.forEach(function (btn) {
-      btn.addEventListener('click', this.activityCompleted);
-    }, this);
-    this.deleteBtns.forEach(function (btn) {
-      btn.addEventListener('click', this.deleteActivity);
-    }, this);
-    this.editBtns.forEach(function (btn) {
-      btn.addEventListener('click', this.editActivity);
-    }, this);
-
     // select btns
     this.addActivityBtn = document.querySelector('.add-activity-btn');
     this.clearBtn = document.querySelector('.clear');
@@ -85,6 +69,27 @@ class Todo {
 
     // clear text input
     this.textInput.value = '';
+
+    // select dynamic btns
+    const completedBtn = document.querySelectorAll('.completed');
+    const editBtn = document.querySelectorAll('.edit');
+    const deleteBtn = document.querySelectorAll('.delete');
+
+    // concerned methods
+    const activityCompleted = this.activityCompleted;
+    const deleteActivity = this.deleteActivity;
+    const editActivity = this.editActivity;
+
+    // event listeners of dynamic btns
+    completedBtn.forEach(function (btn) {
+      btn.addEventListener('click', activityCompleted);
+    });
+    deleteBtn.forEach(function (btn) {
+      btn.addEventListener('click', deleteActivity);
+    });
+    editBtn.forEach(function (btn) {
+      btn.addEventListener('click', editActivity);
+    });
 
     this.toggleClearBtn();
   }
