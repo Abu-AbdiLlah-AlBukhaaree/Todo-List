@@ -17,6 +17,16 @@ class Todo {
     this.edittedText = '';
     this.edittedElement = null;
 
+    // select dynamic btns
+    this.completedBtns = document.querySelectorAll('.completed');
+    this.editBtns = document.querySelectorAll('.edit');
+    this.deleteBtns = document.querySelectorAll('.delete');
+    this.dynamicallyCreatedBtns(
+      this.completedBtns,
+      this.editBtns,
+      this.deleteBtns
+    );
+
     // select btns
     this.addActivityBtn = document.querySelector('.add-activity-btn');
     this.clearBtn = document.querySelector('.clear');
@@ -29,6 +39,7 @@ class Todo {
     this.createElementContent = this.createElementContent.bind(this);
     this.showAlert = this.showAlert.bind(this);
     this.clearList = this.clearList.bind(this);
+    this.dynamicallyCreatedBtns = this.dynamicallyCreatedBtns.bind(this);
 
     // event listeners
     this.addActivityBtn.addEventListener('click', this.addActivity);
@@ -69,11 +80,6 @@ class Todo {
 
     // clear text input
     this.textInput.value = '';
-
-    // select dynamic btns
-    const completedBtn = document.querySelectorAll('.completed');
-    const editBtn = document.querySelectorAll('.edit');
-    const deleteBtn = document.querySelectorAll('.delete');
 
     // concerned methods
     const activityCompleted = this.activityCompleted;
@@ -174,6 +180,24 @@ class Todo {
               </button>
             </div>`;
     this.todoList.appendChild(this.element);
+  }
+
+  dynamicallyCreatedBtns(completedBtns, editBtns, deleteBtns) {
+    // concerned methods
+    const activityCompleted = this.activityCompleted;
+    const deleteActivity = this.deleteActivity;
+    const editActivity = this.editActivity;
+
+    // event listeners of dynamic btns
+    completedBtns.forEach(function (btn) {
+      btn.addEventListener('click', activityCompleted);
+    });
+    editBtns.forEach(function (btn) {
+      btn.addEventListener('click', editActivity);
+    });
+    deleteBtns.forEach(function (btn) {
+      btn.addEventListener('click', deleteActivity);
+    });
   }
 
   showAlert(alertInfo, boolean) {
