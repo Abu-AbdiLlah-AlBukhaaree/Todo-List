@@ -11,11 +11,21 @@ class Todo {
     this.textInput = document.getElementById('text-input');
     this.todoList = document.getElementById('todo-list');
     this.todoActivity = document.querySelector('.todo-activity');
+    this.fromLocalStorage = JSON.parse(localStorage.getItem('Activities'));
+    // this.store = [];
+    // if (this.fromLocalStorage) {
+    //   this.store = this.fromLocalStorage;
+    // }
+    this.store = this.fromLocalStorage || []; // Initialize with existing data or an empty array
 
     // for edit
     this.editToggle = false;
     this.edittedText = '';
     this.edittedElement = null;
+    this.edittedElementId = null;
+
+    // load local storage
+    this.updateContentFromLocalStorage();
 
     // select dynamic btns
     this.completedBtns = document.querySelectorAll('.completed');
@@ -33,19 +43,22 @@ class Todo {
 
     // bind methods
     this.addActivity = this.addActivity.bind(this);
-    this.activityCompleted = this.activityCompleted.bind(this);
-    this.deleteActivity = this.deleteActivity.bind(this);
-    this.editActivity = this.editActivity.bind(this);
     this.createElementContent = this.createElementContent.bind(this);
     this.showAlert = this.showAlert.bind(this);
     this.clearList = this.clearList.bind(this);
     this.dynamicallyCreatedBtns = this.dynamicallyCreatedBtns.bind(this);
+    this.updateLocalStorage = this.updateLocalStorage.bind(this);
+    this.updateContentFromLocalStorage =
+      this.updateContentFromLocalStorage.bind(this);
 
     // event listeners
     this.addActivityBtn.addEventListener('click', this.addActivity);
     this.clearBtn.addEventListener('click', this.clearList);
 
     this.toggleClearBtn();
+
+    // update local storage
+    this.updateLocalStorage();
   }
 
   addActivity() {
@@ -58,11 +71,30 @@ class Todo {
     if (this.editToggle) {
       // this block of code is solely for editing
       this.edittedText = this.textInput.value;
-      this.edittedElement.firstChild.textContent = this.edittedText;
+      this.edittedElement.querySelector('.todo-activity_text').textContent =
+        this.edittedText.trim();
       this.editToggle = false;
 
       // change add button's text back from 'edit' to 'add'
       this.addActivityBtn.value = 'add';
+
+      // re-enabling other buttons
+      // disable other buttons when active
+      this.completedBtns.forEach(function (item) {
+        item.disabled = false;
+        item.style.color = '#1e791e';
+      });
+      this.deleteBtns.forEach(function (item) {
+        item.disabled = false;
+        item.style.color = '#c80808';
+      });
+
+      // storing the new text
+      const id = this.edittedElementId;
+      const updated = this.store.find(function (item) {
+        return item.id == id;
+      });
+      updated.content = this.edittedText;
 
       // show alert
       this.showAlert('activity updated', 'success');
@@ -70,7 +102,7 @@ class Todo {
       if (this.textInput.value === '') {
         this.showAlert(`activity can't be empty`, 'error');
       } else {
-        this.createElementContent(this.textInput.value);
+        this.createElementContent(this.textInput.value.trim());
 
         // show alert
         this.showAlert('activity added', 'success');
@@ -78,29 +110,21 @@ class Todo {
     }
     // *** end of add activity ***
 
+    // dynamically selected buttons
+    const completedBtns = document.querySelectorAll('.completed');
+    const editBtns = document.querySelectorAll('.edit');
+    const deleteBtns = document.querySelectorAll('.delete');
+    this.dynamicallyCreatedBtns(completedBtns, editBtns, deleteBtns);
     // clear text input
     this.textInput.value = '';
 
-    // concerned methods
-    const activityCompleted = this.activityCompleted;
-    const deleteActivity = this.deleteActivity;
-    const editActivity = this.editActivity;
-
-    // event listeners of dynamic btns
-    completedBtn.forEach(function (btn) {
-      btn.addEventListener('click', activityCompleted);
-    });
-    deleteBtn.forEach(function (btn) {
-      btn.addEventListener('click', deleteActivity);
-    });
-    editBtn.forEach(function (btn) {
-      btn.addEventListener('click', editActivity);
-    });
-
     this.toggleClearBtn();
+
+    // update local storage
+    this.updateLocalStorage();
   }
 
-  activityCompleted(e) {
+  activityCompleted = (e) => {
     const currentElement = e.currentTarget;
     const currentElementParentElementSibling =
       currentElement.parentElement.previousElementSibling;
@@ -116,9 +140,21 @@ class Todo {
 
     // show alert
     this.showAlert('activity completed', 'success');
-  }
 
-  deleteActivity(e) {
+    // working with local storage
+    const currentElementId = currentElementParentElementSibling.dataset.id;
+    for (let i = 0; i < this.store.length; i++) {
+      if (this.store[i].id == currentElementId) {
+        this.store[i].status = 'completed';
+        break;
+      }
+    }
+
+    // update local storage
+    this.updateLocalStorage();
+  };
+
+  deleteActivity = (e) => {
     const currentElement = e.currentTarget;
     const currentElementArticleParent =
       currentElement.closest('.todo-activity');
@@ -130,9 +166,22 @@ class Todo {
     this.showAlert('activity removed', 'error');
 
     this.toggleClearBtn();
-  }
 
-  editActivity(e) {
+    // working with local storage
+    const currentElementParentElementSibling =
+      currentElement.parentElement.previousElementSibling;
+    const currentElementId = currentElementParentElementSibling.dataset.id;
+    const store = this.store;
+    for (let i = 0; i < this.store.length; i++) {
+      if (this.store[i].id == currentElementId) {
+        this.store.splice(i, 1);
+        break;
+      }
+    }
+    this.updateLocalStorage();
+  };
+
+  editActivity = (e) => {
     const currentElement = e.currentTarget;
     const currentElementParentElementSibling =
       currentElement.parentElement.previousElementSibling;
@@ -141,9 +190,25 @@ class Todo {
     this.addActivityBtn.value = 'edit';
     this.edittedElement = currentElement.closest('.todo-activity');
 
+    // focus on text input
+    this.textInput.focus();
+
+    // disable other buttons when active
+    this.completedBtns.forEach(function (item) {
+      item.disabled = true;
+      item.style.color = 'grey';
+    });
+    this.deleteBtns.forEach(function (item) {
+      item.disabled = true;
+      item.style.color = 'grey';
+    });
+
     // set toggle
     this.editToggle = true;
-  }
+
+    // store dataset.id of the active element
+    this.edittedElementId = currentElementParentElementSibling.dataset.id;
+  };
 
   clearList(e) {
     const allTodoActivities = this.todoList.querySelectorAll('.todo-activity');
@@ -155,6 +220,10 @@ class Todo {
     this.showAlert('list cleared', 'error');
 
     this.toggleClearBtn();
+
+    // clear local storage
+    this.store = [];
+    localStorage.clear();
   }
 
   toggleClearBtn() {
@@ -169,7 +238,8 @@ class Todo {
     // create dynamic article element
     this.element = document.createElement('article');
     this.element.classList.add('todo-activity');
-    this.element.innerHTML = `<p class="todo-activity_text">${info}</p>
+    const id = new Date().getTime();
+    this.element.innerHTML = `<p class="todo-activity_text" data-id="${id}">${info}</p>
             <div class="todo-activity_btns">
               <button class="completed">
                 <i class="fas fa-check-double"></i>
@@ -180,6 +250,13 @@ class Todo {
               </button>
             </div>`;
     this.todoList.appendChild(this.element);
+
+    this.store.push({
+      id,
+      content: this.textInput.value,
+      status: 'uncompleted',
+    });
+    // console.log(this.store);
   }
 
   dynamicallyCreatedBtns(completedBtns, editBtns, deleteBtns) {
@@ -207,6 +284,53 @@ class Todo {
     setTimeout(function () {
       alert.classList.remove(boolean);
     }, 1000);
+  }
+
+  // ************ LOCAL STORAGE ************
+  updateLocalStorage() {
+    localStorage.setItem('Activities', JSON.stringify(this.store));
+  }
+
+  updateContentFromLocalStorage() {
+    const storeActivities = this.fromLocalStorage;
+
+    if (storeActivities && Array.isArray(storeActivities)) {
+      const newValue = storeActivities.map(function (item) {
+        if (item.status === 'uncompleted') {
+          return `<article class="todo-activity">
+                <p class="todo-activity_text" data-id="${item.id}">${item.content}</p>
+            <div class="todo-activity_btns">
+              <button class="completed">
+                <i class="fas fa-check-double"></i>
+              </button>
+              <button class="edit"><i class="far fa-edit"></i></button>
+              <button class="delete">
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </div>
+              </article>`;
+        } else {
+          return ` <article class="todo-activity">
+            <p class="todo-activity_text" data-id="${item.id}" style="text-decoration: line-through">${item.content}</p>
+            <div class="todo-activity_btns">
+              <button class="completed" disabled="" style="color: grey">
+                <i class="fas fa-check-double"></i>
+              </button>
+              <button class="edit" disabled="" style="color: grey">
+                <i class="far fa-edit"></i>
+              </button>
+              <button class="delete">
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </div>
+          </article>`;
+        }
+      });
+
+      let show = newValue.join('');
+      this.todoList.innerHTML = show;
+      // console.log(show);
+    }
   }
 }
 
