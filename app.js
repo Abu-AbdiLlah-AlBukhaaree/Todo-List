@@ -79,15 +79,10 @@ class Todo {
       this.addActivityBtn.value = 'add';
 
       // re-enabling other buttons
-      // disable other buttons when active
-      this.completedBtns.forEach(function (item) {
-        item.disabled = false;
-        item.style.color = '#1e791e';
-      });
-      this.deleteBtns.forEach(function (item) {
-        item.disabled = false;
-        item.style.color = '#c80808';
-      });
+      this.edittedElement.querySelector('.completed').style.color = '#1e791e';
+      this.edittedElement.querySelector('.completed').disabled = false;
+      this.edittedElement.querySelector('.delete').style.color = '#c80808';
+      this.edittedElement.querySelector('.delete').disabled = false;
 
       // storing the new text
       const id = this.edittedElementId;
@@ -194,14 +189,10 @@ class Todo {
     this.textInput.focus();
 
     // disable other buttons when active
-    this.completedBtns.forEach(function (item) {
-      item.disabled = true;
-      item.style.color = 'grey';
-    });
-    this.deleteBtns.forEach(function (item) {
-      item.disabled = true;
-      item.style.color = 'grey';
-    });
+    currentElement.previousElementSibling.disabled = true;
+    currentElement.previousElementSibling.style.color = 'grey';
+    currentElement.nextElementSibling.disabled = true;
+    currentElement.nextElementSibling.style.color = 'grey';
 
     // set toggle
     this.editToggle = true;
