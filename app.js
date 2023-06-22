@@ -9,6 +9,7 @@ class Todo {
     this.alert = document.querySelector('.alert');
     this.form = document.querySelector('.form');
     this.textInput = document.getElementById('text-input');
+    this.noActivitiesYet = document.querySelector('.no-activities-yet');
     this.todoList = document.getElementById('todo-list');
     this.todoActivity = document.querySelector('.todo-activity');
     this.fromLocalStorage = JSON.parse(localStorage.getItem('Activities'));
@@ -83,6 +84,8 @@ class Todo {
       this.edittedElement.querySelector('.completed').disabled = false;
       this.edittedElement.querySelector('.delete').style.color = '#c80808';
       this.edittedElement.querySelector('.delete').disabled = false;
+      this.clearBtn.disabled = true;
+      this.clearBtn.style.color = '#920909';
 
       // storing the new text
       const id = this.edittedElementId;
@@ -193,6 +196,8 @@ class Todo {
     currentElement.previousElementSibling.style.color = 'grey';
     currentElement.nextElementSibling.disabled = true;
     currentElement.nextElementSibling.style.color = 'grey';
+    this.clearBtn.disabled = true;
+    this.clearBtn.style.color = 'grey';
 
     // set toggle
     this.editToggle = true;
@@ -219,8 +224,12 @@ class Todo {
 
   toggleClearBtn() {
     if (this.todoList.children.length > 0) {
+      this.noActivitiesYet.style.display = 'none';
       this.clearBtn.style.display = 'inline';
     } else {
+      setTimeout(() => {
+        this.noActivitiesYet.style.display = 'block';
+      }, 1000);
       this.clearBtn.style.display = 'none';
     }
   }
