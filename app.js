@@ -84,7 +84,7 @@ class Todo {
       this.edittedElement.querySelector('.completed').disabled = false;
       this.edittedElement.querySelector('.delete').style.color = '#c80808';
       this.edittedElement.querySelector('.delete').disabled = false;
-      this.clearBtn.disabled = true;
+      this.clearBtn.disabled = false;
       this.clearBtn.style.color = '#920909';
 
       // storing the new text
